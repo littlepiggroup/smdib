@@ -20,6 +20,7 @@ if __name__ == '__main__':
         cred_json = json.load(f)
 
     b = bidms.Bidms(cred_json['username'], cred_json['password'])
-    data = b.get_tong_feng_kong_tiao()
-    for d in data:
-        print d
+    # data = b.get_tong_feng_kong_tiao()
+    # for d in data:
+    #     print d
+    data = b.get_electric_meter()

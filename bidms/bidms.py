@@ -15,3 +15,7 @@ class Bidms(object):
     def get_tong_feng_kong_tiao(self):
         import TongFengKongTiao
         return TongFengKongTiao.tfkt_data(self.session)
+
+    def get_electric_meter(self):
+        import ElectricMeter
+        return ElectricMeter.electric_meter_data(self.session)
