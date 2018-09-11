@@ -5,6 +5,8 @@ import re
 
 from bs4 import BeautifulSoup
 
+import utils
+
 logger = logging.getLogger(__name__)
 
 
@@ -71,18 +73,7 @@ def tfkt_data(s):
     r = s.get(url)
     html_body = r.content
     # Fetch paging info
-    matched = re.search(r'postPaging\(.*\)', html_body)
-    if matched:
-        matched_str = matched.group()
-        logger.debug(matched_str)
-        paging_info = json.loads(re.search(r'{.*}', matched_str).group())
-        logger.info(paging_info)
-        total_pages = paging_info['totalPages']
-        logger.info(total_pages)
-
-    else:
-        logger.error(html_body)
-        raise Exception('Not find postPaging string in html.')
+    total_pages = utils.get_total_pages(html_body)
 
     all_data = []
     updated_csrf, first_page = extract_table(html_body)
@@ -116,3 +107,5 @@ def tfkt_data(s):
             all_data += page
 
     return all_data
+
+
