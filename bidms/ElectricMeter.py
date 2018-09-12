@@ -9,23 +9,34 @@ import utils
 
 class ElectricMeter(object):
     def __init__(self, row):
-        # {'序号':'', '设备名称':'', '设备类型':'', '设备品牌':'', '系统组名':'', '安装位置':''}
+        # 1. 序号
+        # 2. 设备名称
+        # 3. 设备型号
+        # 4. 设备品牌
+        # 5. 安装位置
+        # 6. 服务区域
+        # 7. 当前读数(kw.h)   float()?
+        # 8. 智能跳转
         self.number = row[0]
         self.name = row[1]
         self.type = row[2]
         self.brand = row[3]
-        self.group_name = row[4]
-        row_5 = row[5]
-        self.location = re.sub(r'[\n\t\r ]*', ' ', row_5)
+        self.location = row[4]
+        self.service_zone = row[5]
+        self.cur_value = row[6]
+        self.building = self.location.split('_')[0]
 
     def __str__(self):
-        return u'{序号: %s, 设备名称:%s, 设备类型: %s, 设备品牌: %s, 系统组名: %s, 安装位置: %s}' % (
+        return u'{序号: %s, 设备名称:%s, 设备类型: %s, 设备品牌: %s, 安装位置: %s, 服务区域: %s, 当前读数: %s,' \
+               u'楼名:%s' % (
             self.number,
             self.name,
             self.type,
             self.brand,
-            self.group_name,
-            self.location
+            self.location,
+            self.service_zone,
+            self.cur_value,
+            self.building
         )
 
 def electric_meter_data(s):
@@ -43,12 +54,17 @@ def electric_meter_data(s):
         cols = row.find_all('td')
         cols = [ele.text.strip() for ele in cols]
         data.append([ele for ele in cols])
-
+    xs = []
     for d in data:
+        xs.append(ElectricMeter(map(lambda x: re.sub(r'[\n\t\r ]*', '', x),d)))
         for x in d:
-            print re.sub(r'[\n\t\r ]*', ' ', x)
+            # print re.sub(r'[\n\t\r ]*', '', x)
+            pass
     total_pages = utils.get_total_pages(html)
-    print total_pages
+
+    for meter in xs:
+        print meter
+    # print total_pages
 
     '''
     Request URL: http://xh.shhanqian.com:10002/bid/monitor/measure/showElectricMeterList.htm

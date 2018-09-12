@@ -4,6 +4,7 @@ import logging
 import re
 logger = logging.getLogger(__name__)
 
+
 def get_total_pages(html_body):
     matched = re.search(r'postPaging\(.*\)', html_body)
     if matched:
