@@ -24,3 +24,5 @@ if __name__ == '__main__':
     # for d in data:
     #     print d
     data = b.get_electric_meter()
+    for d in data:
+        print d

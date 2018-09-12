@@ -5,6 +5,12 @@ import re
 logger = logging.getLogger(__name__)
 
 
+def find_updated_csrf(soup):
+    csrf_tag = soup.find_all("meta", attrs={'name': "_csrf"})
+    updated_csrf = csrf_tag[0].attrs['content']
+    return updated_csrf
+
+
 def get_total_pages(html_body):
     matched = re.search(r'postPaging\(.*\)', html_body)
     if matched:

@@ -41,8 +41,7 @@ def extract_table(html):
     logger.debug(html)
     data = []
     soup = BeautifulSoup(html, 'html.parser')
-    csrf_tag = soup.find_all("meta", attrs={'name': "_csrf"})
-    updated_csrf = csrf_tag[0].attrs['content']
+    updated_csrf = utils.find_updated_csrf(soup)
 
     table = soup.find('table', attrs={'class': 'div_table_tab sortable'})
     table_body = table.find('tbody')
@@ -63,6 +62,9 @@ def extract_table(html):
 
     logger.info("Updated csrf: %s" % updated_csrf)
     return updated_csrf, objs_data
+
+
+
 
 def tfkt_data(s):
     '''
