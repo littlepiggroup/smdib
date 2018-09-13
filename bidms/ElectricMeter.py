@@ -9,6 +9,7 @@ import utils
 
 logger = logging.getLogger(__name__)
 
+
 class ElectricMeter(object):
     def __init__(self, row):
         # 1. 序号
@@ -25,7 +26,7 @@ class ElectricMeter(object):
         self.brand = row[3]
         self.location = row[4]
         self.service_zone = row[5]
-        if row[6] is None or len(row[6])== 0:
+        if row[6] is None or len(row[6]) == 0:
             self.cur_value = None
         else:
             self.cur_value = float(row[6].replace(",", ""))
@@ -34,17 +35,18 @@ class ElectricMeter(object):
     def __str__(self):
         return u'{序号: %s, 设备名称:%s, 设备类型: %s, 设备品牌: %s, 安装位置: %s, 服务区域: %s, 当前读数: %s,' \
                u'楼名:%s}' % (
-            self.number,
-            self.name,
-            self.type,
-            self.brand,
-            self.location,
-            self.service_zone,
-            str(self.cur_value),
-            self.building
-        )
+                   self.number,
+                   self.name,
+                   self.type,
+                   self.brand,
+                   self.location,
+                   self.service_zone,
+                   str(self.cur_value),
+                   self.building
+               )
 
 
+@utils.my_timer
 def electric_meter_data(s, csrf):
     url = 'http://xh.shhanqian.com:10002/bid/monitor/measure/showElectricMeterList.htm?equipTypeId=8001'
     r = s.get(url)
@@ -81,9 +83,9 @@ page: 4
             ('equipStory', ''),
             ('equipPlaceqqq', ''),
             ('equipName', ''),
-            ('serviceBuild','0'),
-            ('equipTypeqqq','0'),
-            ('equipType','0'),
+            ('serviceBuild', '0'),
+            ('equipTypeqqq', '0'),
+            ('equipType', '0'),
             ('_csrf', updated_csrf),
             ('page', str(i))
         ]
@@ -99,6 +101,14 @@ page: 4
             ignore, page = parse_table(html_doc)
             all_data += page
     return all_data
+
+
+@utils.my_timer
+def hello():
+    print 'Hello'
+    import time
+    time.sleep(10)
+
 
 def parse_table(html):
     soup = BeautifulSoup(html, 'html.parser')
@@ -118,4 +128,4 @@ def parse_table(html):
 
 
 if __name__ == '__main__':
-    pass
+    hello()

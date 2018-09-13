@@ -64,8 +64,6 @@ def extract_table(html):
     return updated_csrf, objs_data
 
 
-
-
 def tfkt_data(s):
     '''
     通风空调系统
@@ -109,5 +107,3 @@ def tfkt_data(s):
             all_data += page
 
     return all_data
-
-

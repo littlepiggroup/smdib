@@ -17,9 +17,9 @@ def login(s, csrf_value, username, password):
     r = s.post(login_url, data=form_data)
     logger.info("status code for login: %s" % str(r.status_code))
 
-
     if '登录' in r.content:
         raise Exception('Login failed. Please check your user name and password!')
+
 
 def _get_csrf_token(s, site_url):
     r = s.get(site_url)

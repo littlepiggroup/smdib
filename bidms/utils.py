@@ -2,7 +2,20 @@
 import json
 import logging
 import re
+
 logger = logging.getLogger(__name__)
+
+
+def my_timer(func):
+    def wrapper(*args, **kwargs):
+        import time
+        start = time.time()
+        ret = func(*args, **kwargs)
+        dur = time.time() - start
+        logger.info("Duration of function %s: %s seconds" % (func.__name__, str(dur)))
+        return ret
+
+    return wrapper
 
 
 def find_updated_csrf(soup):
